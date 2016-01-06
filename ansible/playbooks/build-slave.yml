@@ -13,3 +13,14 @@
         - markwilde.gcc
         - azavea.pip
         - kfieldho.cmake
+  tasks:
+    - name: "Install libibverbs"
+      apt: pkg='libibverbs-dev' state=installed
+     - name: "Install bzip2"
+      apt: pkg='libbz2-dev' state=installed
+    - name: "Install gfortran"
+      apt: pkg='gfortran' state=installed
+    - name: "Install lapack"
+      apt: pkg='liblapack-dev' state=installed
+    - name: "Install cuda toolkit"
+      apt: pkg='nvidia-cuda-toolkit' state=installed
