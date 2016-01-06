@@ -1,13 +1,16 @@
-#!/bin/bash
+#!/bin/sh
 
 PROVISION_REPO=https://github.com/zenotech/zProvision.git
 
-sudo apt-get install python-pip
-sudo pip install --upgrade pip
-sudo pip install ansible
+sudo -H apt-get -y install python-pip python-dev build-essential
+sudo -H pip install --upgrade pip
+sudo -H pip install ansible
 
 git clone ${PROVISION_REPO}
 
 cd zProvision/ansible
-./setup.sh #Install dependencies
-ansible-playbook playbooks/jenkins-slave.yml
+sudo -H ./setup.sh #Install dependencies
+echo "[ci-slave]
+localhost ansible_connection=local
+" > host_inventory
+ansible-playbook playbooks/jenkins-slave.yml -i host_inventory
