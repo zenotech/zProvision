@@ -1,8 +1,9 @@
 #!/bin/bash
 
-PROVISION_REPO=github.com/zenotech/zProvision
+PROVISION_REPO=https://github.com/zenotech/zProvision.git
 
-sudo apt-get install pip
+sudo apt-get install python-pip
+sudo pip install --upgrade pip
 sudo pip install ansible
 
 git clone ${PROVISION_REPO}
