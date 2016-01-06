@@ -2,7 +2,7 @@
 
 PROVISION_REPO=https://github.com/zenotech/zProvision.git
 
-sudo -H apt-get -y install ansible
+sudo -H apt-get -y install ansible git
 
 git clone ${PROVISION_REPO}
 
