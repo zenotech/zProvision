@@ -1,0 +1,25 @@
+vars:
+        jenkins_hostname: ci.zenotech.com
+        jenkins_http_port: 8080
+        jenkins_jar_location: /opt/jenkins-cli.jar
+        jenkins_plugins:
+            - git
+            - sonar
+            - ssh
+            - google-login
+            - swarm
+            - instant-messaging
+            - jabber
+            - cppcheck
+            - s3
+            - jobConfigHistory
+            - build-timeout
+            - email-ext
+            - emailext-template
+            - pyenv
+        jenkins_url_prefix: "/"
+        jenkins_repo_url: deb http://pkg.jenkins-ci.org/debian-stable binary/
+        jenkins_repo_key_url: http://pkg.jenkins-ci.org/debian-stable/jenkins-ci.org.key
+        jenkins_connection_delay: 5
+        jenkins_connection_retries: 60
+

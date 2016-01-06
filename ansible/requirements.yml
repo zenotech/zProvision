@@ -1,0 +1,16 @@
+---
+# Base OS stuff
+- src: awailly.cis-ubuntu-ansible
+- src: debops.fail2ban
+
+# CI Packages
+- src: geerlingguy.sonar
+- src: geerlingguy.jenkins
+
+- src: Rackspace_Automation.docker
+
+#Development
+- src: markwilde.gcc
+- src: geerlingguy.git
+- src: kfieldho.cmake
+- src: azavea.pip

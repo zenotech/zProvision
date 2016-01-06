@@ -1,0 +1,17 @@
+---
+- hosts: ci-master
+  sudo: yes
+  pre_tasks:
+    - name: "Update apt cache if needed"
+      apt: update_cache=yes cache_valid_time=3600
+      when: ansible_os_family == 'Debian'
+
+  tasks:
+    - name: "Install unzip"
+      apt: name=unzip state=present
+
+  roles:
+        - awailly.cis-ubuntu-ansible
+#        - debops.fail2ban
+        - geerlingguy.jenkins
+        - geerlingguy.sonar
