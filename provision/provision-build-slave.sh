@@ -12,3 +12,11 @@ echo "[ci-build]
 localhost ansible_connection=local
 " > host_inventory
 ansible-playbook playbooks/build-slave.yml -i host_inventory
+
+#Set git user config
+
+git config --global user.email 'jenkins@zenotech.com'
+git config --global user.name 'Jenkins CI'
+
+# Install ec2 vagrant plugin
+vagrant plugin install vagrant-aws
