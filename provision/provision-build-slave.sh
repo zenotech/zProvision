@@ -18,5 +18,3 @@ ansible-playbook playbooks/build-slave.yml -i host_inventory
 git config --global user.email 'jenkins@zenotech.com'
 git config --global user.name 'Jenkins CI'
 
-# Install ec2 vagrant plugin
-vagrant plugin install vagrant-aws

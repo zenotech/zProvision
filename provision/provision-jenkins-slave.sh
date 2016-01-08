@@ -12,3 +12,6 @@ echo "[ci-slave]
 localhost ansible_connection=local
 " > host_inventory
 ansible-playbook playbooks/jenkins-slave.yml -i host_inventory
+
+# Install ec2 vagrant plugin
+vagrant plugin install vagrant-aws
