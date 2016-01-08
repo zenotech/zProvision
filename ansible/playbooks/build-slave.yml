@@ -16,7 +16,7 @@
   tasks:
     - name: "Install libibverbs"
       apt: pkg='libibverbs-dev' state=installed
-     - name: "Install bzip2"
+    - name: "Install bzip2"
       apt: pkg='libbz2-dev' state=installed
     - name: "Install gfortran"
       apt: pkg='gfortran' state=installed
