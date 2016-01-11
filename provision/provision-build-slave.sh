@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 PROVISION_REPO=https://github.com/zenotech/zProvision.git
 
 sudo apt-get -y install software-properties-common

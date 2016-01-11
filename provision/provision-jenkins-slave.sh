@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 PROVISION_REPO=https://github.com/zenotech/zProvision.git
 
 sudo -H apt-get -y install ansible git
