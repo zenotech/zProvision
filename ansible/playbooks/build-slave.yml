@@ -24,3 +24,5 @@
       apt: pkg='liblapack-dev' state=installed
     - name: "Install cuda toolkit"
       apt: pkg='nvidia-cuda-toolkit' state=installed
+    - name: "Install xutils dev"
+      apt: pkg='xutils-dev' state=installed
