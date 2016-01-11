@@ -14,6 +14,8 @@
         - azavea.pip
         - kfieldho.cmake
   tasks:
+    -filesystem: fstype=ext4 dev=/dev/xvdb
+    -mount: name=/home/ubuntu/jenkins src=/dev/xvdb state=present
     - name: "Install libibverbs"
       apt: pkg='libibverbs-dev' state=installed
     - name: "Install bzip2"
