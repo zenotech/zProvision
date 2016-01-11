@@ -15,13 +15,6 @@
             "subnet_id": "subnet-2a985673",
             "tags": {"Environment": "test",
                 "name": "jenkins slave builder"},
-            "ami_block_device_mappings": [
-                {
-                "volume_size": "100",
-                "device_name": "/dev/xvdb",
-                "delete_on_termination": "true",
-                "encrypted": "true"
-                }
             ]
         }],
         "provisioners": [
