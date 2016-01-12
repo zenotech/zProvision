@@ -26,3 +26,9 @@
       apt: pkg='nvidia-cuda-toolkit' state=installed
     - name: "Install xutils dev"
       apt: pkg='xutils-dev' state=installed
+    - name: "Install libx11-dev"
+      apt: pkg='libx11-dev' state=installed
+    - name: "Install flex"
+      apt: pkg='flex' state=installed
+    - name: "Install bison"
+      apt: pkg='bison' state=installed
