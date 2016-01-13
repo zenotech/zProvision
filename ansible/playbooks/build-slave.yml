@@ -32,3 +32,5 @@
       apt: pkg='flex' state=installed
     - name: "Install bison"
       apt: pkg='bison' state=installed
+    - name: "Install openssl-dev"
+      apt: pkg="libssl-dev" state=installed
