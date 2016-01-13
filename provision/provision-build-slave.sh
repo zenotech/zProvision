@@ -4,11 +4,8 @@ set -e
 
 PROVISION_REPO=https://github.com/zenotech/zProvision.git
 
-sudo apt-get -y install software-properties-common
-sudo apt-add-repository ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get -y install ansible
-sudo -H apt-get -y install git
+sudo -H apt-get -y install git python-pip
+sudo pip install ansible==1.9.4
 
 git clone ${PROVISION_REPO}
 
