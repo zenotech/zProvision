@@ -2,10 +2,11 @@
 
 Install for OSX:
 
-vagrant
+sudo port install vagrant
+vagrant plugin install vagrant-aws
 sudo port install ansible
 
-ansible-galaxy install -r requirements.yml
+sudo ansible-galaxy install -r requirements.yml
 
 Required Environment VARS
 
