@@ -1,0 +1,4 @@
+# Base OS stuff
+- src: awailly.cis-ubuntu-ansible
+- src: elao.motd
+  version: 2.0 
