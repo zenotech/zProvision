@@ -1,0 +1,53 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby ts=2 sw=2 expandtab:
+
+VAGRANTFILE_API_VERSION = "2"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box = "ubuntu_aws"
+  config.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
+
+  config.vm.hostname = "bastion"
+
+  config.vm.provider :aws do |aws, override|
+    aws.access_key_id = ENV['AWS_ACCESS_KEY']
+    aws.secret_access_key = ENV['AWS_SECRET_KEY']
+    #aws.instance_type = "m4.large"
+    aws.instance_type = "t2.micro"
+    aws.keypair_name = ENV['AWS_KEYPAIR_NAME'] 
+    aws.ami = "ami-f95ef58a"
+    aws.region = "eu-west-1"
+    aws.subnet_id = "subnet-ce360f97"
+    aws.tags = {
+      'Name' => 'SoftwareDevBastion',
+    }
+    aws.security_groups = ['sg-d55f4fb1']
+
+    aws.ssh_host_attribute = :public_ip_address
+    #aws.associate_public_ip = true
+    aws.elastic_ip = true
+    aws.private_ip_address = '10.0.0.10'
+
+#    aws.block_device_mapping = [
+#       {
+#            'DeviceName' => "/dev/xvdb",
+#            'Ebs.SnapshotId' => "snap-xxxxxxxx",
+            #'Ebs.VolumeId' => "vol-1234abcd",
+            #'VirtualName' => "scratch",
+#            'Ebs.VolumeSize' => 30,
+#            'Ebs.DeleteOnTermination' => false,
+            #'Ebs.VolumeType' => 'io1',
+            #'Ebs.Iops' => 1000
+#        }
+#    ]
+
+    override.ssh.username = "ubuntu"
+    override.ssh.private_key_path = ENV['PRIVATE_AWS_SSH_KEY_PATH']
+  end
+
+  # Provision
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "provisioning/provision.yml"
+  end
+end
+

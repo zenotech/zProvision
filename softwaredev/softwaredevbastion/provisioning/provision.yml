@@ -1,0 +1,28 @@
+---
+- name: Collecting facts
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - group_by: key="$devgroup"
+
+- name: Applying CIS
+  hosts: all
+  become: yes
+
+  pre_tasks:
+    - name: Update apt cache if needed.
+      apt: update_cache=yes cache_valid_time=3600
+
+  roles:
+    - role: awailly.cis-ubuntu-ansible 
+
+#  tasks:
+#    - include: setup.yml
+
+#- include: roles/common.yml 
+
+- name: Apply common configuration
+  hosts: all
+  sudo: yes
+  roles:
+    - common

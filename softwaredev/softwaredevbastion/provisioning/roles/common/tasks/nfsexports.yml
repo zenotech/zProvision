@@ -1,0 +1,18 @@
+---
+- hosts: all
+  vars:
+    nfsclients:
+      - 10.0.0.0/16
+  tasks:
+    # - action: nfsexport path=/home 
+    - action: nfsexport dest=/etc/exports path=/scratch clients="{{nfsclients}}" options=rw,no_root_squash
+
+# Of course, if you have defined a group you can use the hostnames on
+# that group as clients.
+
+# - hosts: all
+#   tasks:
+#     - action: nfsexport path=/home clients=${groups.myclients}
+
+# Unfortunately, however, there is not (yet) an easy way to convert
+# the hostnames into ip addresses.
