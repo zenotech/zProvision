@@ -19,6 +19,6 @@
         "provisioners": [
         {
             "type": "shell",
-            "inline": "curl -L https://raw.githubusercontent.com/zenotech/zProvision/master/provision/provision-jenkins-slave.sh | sh"
+            "inline": "curl -L https://raw.githubusercontent.com/zenotech/zProvision/master/ci/provision/provision-jenkins-slave.sh | sh"
         }]
 }
