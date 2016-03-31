@@ -9,6 +9,11 @@
 - src: Rackspace_Automation.docker
 - src: weldpua2008.vagrant
 
+#Django
+- src: geerlingguy.nginx
+- src: azavea.gunicorn
+- src: azavea.celery
+
 #Development
 - src: markwilde.gcc
 - src: geerlingguy.git

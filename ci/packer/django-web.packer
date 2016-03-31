@@ -1,0 +1,32 @@
+{
+    "variables": {
+    },
+        "builders": [{
+            "type": "amazon-ebs",
+            "region": "eu-west-1",
+            "source_ami": "ami-8cfe57ff",
+            "instance_type": "t2.micro",
+            "associate_public_ip_address": "true",
+            "ami_virtualization_type": "hvm",
+            "ssh_username": "ubuntu",
+            "ami_name": "ubuntu-15.04-django-web {{timestamp}}",
+            "ami_description": "A django web server image built with Packer.io",
+            "vpc_id": "vpc-27a47342",
+            "subnet_id": "subnet-2a985673",
+            "tags": {"Environment": "test",
+                "name": "Django web builder"},
+            "ami_block_device_mappings": [
+                {
+                "volume_size": "100",
+                "device_name": "/dev/xvdb",
+                "delete_on_termination": "true",
+                "encrypted": "true"
+                }
+            ]
+        }],
+        "provisioners": [
+        {
+            "type": "shell",
+            "inline": "curl -L https://raw.githubusercontent.com/zenotech/zProvision/master/ci/provision/provision-django-web.sh | sh"
+        }]
+}

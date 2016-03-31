@@ -1,0 +1,96 @@
+---
+- hosts: django-web 
+  sudo: yes
+  vars:
+      server_name: "epic-qa.zenotech.com"
+      pip_version: "8.1.*"
+      zenosphere_dir: "/var/www/zenosphere"
+      gunicorn_app_dir: "{{ zenosphere_dir }}"
+      gunicorn_wsgi: "zenoSphere.wsgi"
+      nginx_worker_processes: "auto"
+      nginx_worker_connections: "8094"
+      nginx_multi_accept: "on"
+      nginx_sendfile: "on"
+      nginx_tcp_nopush: "on"
+      nginx_tcp_nodelay: "on"
+      nginx_keepalive_timeout: "65"
+      nginx_keepalive_requests: "100"
+      nginx_client_max_body_size: "64m"
+      nginx_remove_default_vhost: true
+      nginx_ppa_use: true
+      nginx_ppa_version: stable
+      nginx_upstreams:
+          - name: gunicorn
+            servers: {
+               "unix:/var/run/gunicorn/socket fail_timeout=0"
+            }
+      nginx_extra_http_options: |
+        real_ip_header X-Forwarded-For;
+        set_real_ip_from 172.30.0.0/16;
+
+      nginx_vhosts: []
+  pre_tasks:
+    - name: "Update apt cache if needed"
+      apt: update_cache=yes cache_valid_time=3600
+      when: ansible_os_family == 'Debian'
+
+  roles:
+        - awailly.cis-ubuntu-ansible
+        - geerlingguy.nginx
+        - geerlingguy.git
+        - azavea.pip
+        - azavea.gunicorn
+  tasks:
+    - name: "Install python pkg_resources (Ubuntu)"
+      apt: pkg='python-pkg-resources' state=installed
+      when: ansible_os_family == 'Debian'
+    - name: "Install python setuptools (Ubuntu)"
+      apt: pkg='python-setuptools' state=installed
+      when: ansible_os_family == 'Debian'
+    - name: "Install libmemcached-dev"
+      apt: pkg='libmemcached-dev' state=installed
+      when: ansible_os_family == 'Debian'
+    - name: "Create zenosphere checkout dir"
+      file: path={{zenosphere_dir}} owner=gunicorn mode=0777 state=directory
+    - name: "Checkout zenosphere"
+      sudo: no 
+      git: repo=git@github.com:zenotech/zenoSphere.git
+           dest={{zenosphere_dir}}
+           accept_hostkey=yes
+           force=yes
+           recursive=no
+           depth=1
+           version=develop
+    - name: "Lock down permissions on checkout"
+      file: path={{zenosphere_dir}} owner=gunicorn group=www-data recurse=yes
+
+    - name: "Install libjpeg-dev (Ubuntu)"
+      apt: pkg='libjpeg-dev' state=installed
+      when: ansible_os_family == 'Debian'    
+    - name: "Install pg-dev (Ubuntu)"
+      apt: pkg='libpq-dev' state=installed
+      when: ansible_os_family == 'Debian'
+    - name: "Create zenosphere log dir"
+      file: path=/var/log/zenosphere owner=gunicorn group=gunicorn mode=0750 state=directory
+    - name: "Install python requirements"
+      pip: requirements={{zenosphere_dir}}/requirements.txt chdir={{zenosphere_dir}}
+    - name: Fix python library permissions
+      file: path=/usr/local/lib/python2.7 mode=ugo+rX recurse=yes state=directory
+    - name: add gunicorn systemd service
+      template: src=files/gunicorn.service dest=/etc/systemd/system/gunicorn.service mode=0644
+    - name: add gunicorn systemd socket
+      copy: src=files/gunicorn.socket dest=/etc/systemd/system/gunicorn.socket mode=0755
+    - name: set gunicorn rundir permissions
+      file: path=/var/run/gunicorn state=directory owner=gunicorn group=www-data mode=0775 recurse=yes
+    - name: reload systemd
+      command: /bin/systemctl --system daemon-reload
+    - name: enable gunicorn service
+      service: name=gunicorn enabled=yes
+    - name: bounce gunicorn
+      service: name=gunicorn state=restarted
+    - name: Create nginx vhost
+      template: src=templates/epic dest=/etc/nginx/sites-available/epic owner=root group=root mode=0644
+    - name: Enable vhost
+      file: src=../sites-available/epic dest=/etc/nginx/sites-enabled/epic owner=root group=root state=link
+    - name: bounce nginx
+      service: name=nginx state=restarted

@@ -1,0 +1,58 @@
+server {
+    listen 80;
+    server_name {{ server_name }};
+    rewrite ^ https://$server_name$request_uri? permanent;
+    add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload";
+}
+ 
+server {
+ 
+    listen  8088 default;
+    server_name {{ server_name }};
+    
+    if ($host !~ ^({{server_name}})$ ) {
+         return 444;
+    }
+
+    add_header Strict-Transport-Security "max-age=63072000; includeSubdomains; preload" always;
+    add_header X-Content-Type-Options nosniff;
+    add_header X-Frame-Options SAMEORIGIN;
+    add_header X-XSS-Protection "1; mode=block";
+ 
+    location /static/ {
+        alias  /var/www/epic/static/;
+    }
+    
+    location /media/ {
+        alias  /var/www/epic/media/;
+    }
+ 
+    location / {
+        
+	if (-f {{ zenosphere_dir }}/zenoSphere/maintenance_on) {
+            return 503;
+        }
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+ 
+        proxy_redirect off;
+ 
+        if (!-f $request_filename) {
+            proxy_pass http://gunicorn;
+            break;
+        }
+	proxy_connect_timeout 300s;
+	proxy_read_timeout 300s;
+    }
+ 
+    # Error pages
+    error_page 500 502 504 /500.html;
+    location = /500.html {
+        root /var/www/epic/static/;
+    }
+
+    error_page 503 /503.html;
+    location = /503.html {
+        root {{ zenosphere_dir }}/zenoSphere/templates/;
+    }
+}

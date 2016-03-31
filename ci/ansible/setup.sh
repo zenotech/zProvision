@@ -1,1 +1,2 @@
-ansible-galaxy install -r requirements.yml
+apt-get install aptitude
+ansible-galaxy install --ignore-errors -r requirements.yml
