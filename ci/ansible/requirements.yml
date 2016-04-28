@@ -1,5 +1,9 @@
 # Base OS stuff
-- src: awailly.cis-ubuntu-ansible
+- src: git+https://github.com/awailly/cis-ubuntu-ansible.git
+  path: roles
+  name: awailly.cis-ubuntu-ansible
+  version: master
+
 - src: debops.fail2ban
 
 # CI Packages
@@ -8,6 +12,16 @@
 - src: kbrebanov.packer
 - src: Rackspace_Automation.docker
 - src: weldpua2008.vagrant
+
+- src: git+https://github.com/zenotech/ansible-role-mysql.git
+  path: roles
+  name: zenotech.mysql
+  version: master
+- src: git+https://github.com/zenotech/ansible-role-slurm.git
+  path: roles
+  name: zenotech.slurm
+  version: master
+
 
 #Django
 - src: geerlingguy.nginx

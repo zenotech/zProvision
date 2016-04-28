@@ -1,0 +1,54 @@
+---
+- hosts: all
+  become: yes
+  vars:
+      pip_version: "8.1.*"
+      slurm_master: "localhost"
+      slurm_clustername: "default"
+      slurm_dbdhost: "localhost"
+      slurm_dbduser: "slurm"
+      slurm_dbdpassword: "password"
+      slurm_dbddb: "slurm"
+      mysql_packages:
+        - mariadb-client
+        - mariadb-server
+        - python-mysqldb
+      mysql_user_home: /root
+      mysql_root_password: root
+      mysql_enabled_on_startup: yes
+      mysql_users:
+        - name: slurm
+          host: "%"
+          password: "password"
+          priv: "*.*:ALL"
+  pre_tasks:
+    - name: "Update apt cache if needed"
+      apt: update_cache=yes cache_valid_time=3600
+      when: ansible_os_family == 'Debian'
+
+  roles:
+        - { role: awailly.cis-ubuntu-ansible, tags: cis, when: ansible_os_family == "Debian" }
+        - geerlingguy.git
+        - markwilde.gcc
+        - azavea.pip
+        - zenotech.mysql
+        - zenotech.slurm
+  tasks:
+    - name: "Install libibverbs"
+      apt: pkg='libibverbs-dev' state=installed
+    - name: "Install bzip2"
+      apt: pkg='libbz2-dev' state=installed
+    - name: "Install gfortran"
+      apt: pkg='gfortran' state=installed
+    - name: "Install lapack"
+      apt: pkg='liblapack-dev' state=installed
+    - name: "Install xutils dev"
+      apt: pkg='xutils-dev' state=installed
+    - name: "Install libx11-dev"
+      apt: pkg='libx11-dev' state=installed
+    - name: "Install flex"
+      apt: pkg='flex' state=installed
+    - name: "Install bison"
+      apt: pkg='bison' state=installed
+    - name: "Install openssl-dev"
+      apt: pkg="libssl-dev" state=installed
