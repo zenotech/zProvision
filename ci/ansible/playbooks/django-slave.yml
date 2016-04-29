@@ -1,0 +1,33 @@
+---
+- hosts: django-slaves
+  become: yes
+  vars:
+    postgresql_users:
+      - name: zenosphere
+        pass: z3no5sphere
+        encrypted: no
+    postgresql_user_privileges:
+      - name: zenosphere
+        role_attr_flags: "CREATEDB"
+
+  pre_tasks:
+    - name: "Update apt cache if needed"
+      apt: update_cache=yes cache_valid_time=3600
+      when: ansible_os_family == 'Debian'
+
+  roles:
+        - { role: awailly.cis-ubuntu-ansible, tags: cis }
+        - geerlingguy.git
+        - azavea.pip
+        - ANXS.postgresql
+
+  tasks:
+   - name: Install virtualenv
+     apt: pkg=python-virtualenv state=latest
+   - name: Install packages
+     apt: pkg={{item}} state=latest
+     with_items:
+       - libmemcached-dev
+       - postgresql-server-dev-9.3
+       - libjpeg-dev
+       - libffi-dev

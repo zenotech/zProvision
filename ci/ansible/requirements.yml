@@ -24,6 +24,7 @@
 
 
 #Django
+- src: ANXS.postgresql
 - src: geerlingguy.nginx
 - src: azavea.gunicorn
 - src: azavea.celery
