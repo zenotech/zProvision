@@ -8,7 +8,7 @@ sudo -H apt-get -y install ansible git
 
 git clone ${PROVISION_REPO}
 
-cd zProvision/ansible
+cd zProvision/ci/ansible
 sudo -H sh ./setup.sh #Install dependencies
 echo "[ci-slave]
 localhost ansible_connection=local

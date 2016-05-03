@@ -9,7 +9,7 @@ sudo pip install ansible==1.9.4
 
 git clone ${PROVISION_REPO}
 
-cd zProvision/ansible
+cd zProvision/ci/ansible
 sudo -H sh ./setup.sh #Install dependencies
 echo "[ci-build]
 localhost ansible_connection=local
