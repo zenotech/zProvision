@@ -12,7 +12,7 @@
 - src: kbrebanov.packer
 - src: Rackspace_Automation.docker
 - src: weldpua2008.vagrant
-
+- src: geerlingguy.nfs
 - src: git+https://github.com/zenotech/ansible-role-mysql.git
   path: roles
   name: zenotech.mysql

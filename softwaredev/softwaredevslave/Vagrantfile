@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.secret_access_key = ENV['AWS_SECRET_KEY']
     #aws.instance_type = "m4.large"
     aws.instance_type = "t2.micro"
-    aws.keypair_name = ENV['AWS_KEYPAIR_NAME'] 
+    aws.keypair_name = ENV['AWS_KEYPAIR_NAME']
     aws.ami = "ami-a7d155d4"
     aws.region = "eu-west-1"
     aws.tags = {
@@ -22,7 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.security_groups = ['sg-8c0db7e8']
 
     aws.subnet_id = "subnet-ef2910b6"
-    aws.private_ip_address = '10.0.3.10'
+    aws.private_ip_address = '10.1.3.10'
 
     aws.region_config "eu-west-1" do |region|
         region.spot_instance = true
