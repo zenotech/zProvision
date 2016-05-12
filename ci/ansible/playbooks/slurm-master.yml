@@ -32,7 +32,7 @@
         - markwilde.gcc
         - azavea.pip
         - zenotech.mysql
-        - zenotech.slurm
+        - { role: zenotech.slurm, is_slurm_master: true, is_slurm_node: false }
   tasks:
     - name: "Install libibverbs"
       apt: pkg='libibverbs-dev' state=installed
