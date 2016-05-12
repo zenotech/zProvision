@@ -21,6 +21,6 @@ fi
 cd zProvision/ci/ansible
 sudo -H sh ./setup.sh #Install dependencies
 echo "[slurm-slave]
-localhost ansible_connection=local slurm_nodename=$1
+localhost ansible_connection=local slurm_nodename=$1 nfs_master=$2
 " > host_inventory
 ansible-playbook playbooks/slurm-slave.yml -i host_inventory

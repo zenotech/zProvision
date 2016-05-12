@@ -1,10 +1,6 @@
 ---
 - hosts: all
   become: yes
-  vars:
-      pip_version: "8.1.*"
-      slurm_master: "localhost"
-      slurm_clustername: "default"
   pre_tasks:
     - name: "Update apt cache if needed"
       apt: update_cache=yes cache_valid_time=3600
@@ -12,4 +8,15 @@
 
   roles:
         - { role: awailly.cis-ubuntu-ansible, tags: cis, when: ansible_os_family == "Debian" }
-        - { role: zenotech.slurm, is_slurm_master: false, is_slurm_node: true }
+  tasks:
+        - package: name=nfs-utils state=present
+        - service: name=rpcbind state=started
+        - mount: src={{nfs_master}}:/zdata name=/zdata state=mounted fstype=nfs
+- hosts: all
+  become: yes
+  vars:
+      pip_version: "8.1.*"
+      slurm_master: "localhost"
+      slurm_clustername: "default"
+  roles:
+      - { role: zenotech.slurm, is_slurm_master: false, is_slurm_node: true }
