@@ -169,18 +169,18 @@ resource "aws_instance" "nat" {
     }
 }
 
-#resource "aws_instance" "bastion" {
-#    provider = "aws.eu-west-1"
-#    ami = "ami-f95ef58a"
-#    instance_type = "t2.nano"
-#    subnet_id = "${aws_subnet.eu-west-1c.id}"
-#    associate_public_ip_address = true
-#    vpc_security_group_ids = ["${aws_security_group.nat.id}"]
-#    tags {
-#        Name = "Bastion"
-#        Product = "SoftwareDev"
-#    }
-#}
+resource "aws_instance" "bastion" {
+    provider = "aws.eu-west-1"
+    ami = "ami-f95ef58a"
+    instance_type = "t2.nano"
+    subnet_id = "${aws_subnet.eu-west-1c.id}"
+    associate_public_ip_address = true
+    vpc_security_group_ids = ["${aws_security_group.nat.id}"]
+    tags {
+        Name = "Bastion"
+        Product = "SoftwareDev"
+    }
+}
 
 resource "aws_launch_configuration" "spot_build_node" {
     provider = "aws.eu-west-1"
