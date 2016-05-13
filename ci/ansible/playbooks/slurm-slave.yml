@@ -12,6 +12,8 @@
         - package: name=nfs-utils state=present
         - service: name=rpcbind state=started
         - mount: src={{nfs_master}}:/zdata name=/zdata state=mounted fstype=nfs
+        - group: name=munge gid=127 state=present
+        - user: name=munge uid=120 state=present shell=/sbin/nologin system=yes home=/var/run/munge group=munge comment="Runs Uid 'N' Gid Emporium"
 - hosts: all
   become: yes
   vars:
