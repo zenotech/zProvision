@@ -5,6 +5,7 @@
   version: master
 
 - src: debops.fail2ban
+- src: geerlingguy.firewall
 
 # CI Packages
 - src: geerlingguy.sonar
