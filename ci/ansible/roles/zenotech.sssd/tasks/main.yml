@@ -1,0 +1,16 @@
+---
+# tasks file for zenotech.sssd
+- name: Install sssd
+  package: name={{item}} state=latest
+  with_items:
+    - sssd
+    - authconfig
+
+- name: Configure sssd
+  template: name=sssd.conf.j2 dest=/etc/sssd/sssd.conf owner=root group=root mode=0600
+
+- name: Authconfig
+  command: authconfig --enablesssd --enablesssdauth --enablemkhomedir --update
+
+- name: Restart sssd
+  service: name=sssd state=restarted enabled=true
