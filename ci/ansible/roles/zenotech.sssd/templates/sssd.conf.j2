@@ -1,0 +1,30 @@
+[sssd]
+config_file_version = 2
+services = nss, pam
+domains = ad.zenotech.com
+
+[nss]
+filter_users = root
+filter_groups = root
+debug_level=6
+
+[pam]
+
+[domain/ad.zenotech.com]
+debug_level=6
+enumerate = True
+cache_credentials = True
+id_provider = ldap
+access_provider = ldap
+
+ldap_uri = ldap://10.1.1.232,ldap://10.1.3.196
+
+ldap_default_bind_dn = cn=ldap,dc=ad,dc=zenotech,dc=com
+ldap_default_authtok = Z3not3ch
+ldap_search_base = cn=Users,dc=ad,dc=zenotech,dc=com
+ldap_schema = AD
+ldap_id_mapping = True
+ldap_user_ssh_public_key = sshPublicKey
+
+default_shell = /bin/bash
+fallback_homedir = /zdata/%d/%u
