@@ -14,6 +14,7 @@
   roles:
         - { role: awailly.cis-ubuntu-ansible, tags: cis, when: ansible_os_family == "Debian" }
         - { role: geerlingguy.firewall }
+        - { role: zenotech.sssd }
   tasks:
         - package: name=nfs-utils state=present
         - service: name=rpcbind state=started
