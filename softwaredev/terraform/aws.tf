@@ -97,11 +97,47 @@ resource "aws_vpc_peering_connection" "softwaredevpeer" {
 
 }
 
+resource "aws_security_group" "lic" {
+    provider = "aws.eu-west-1"
+    name = "SoftwareDevLic"
+    description = "SoftwareDev Lic instance security group"
+    vpc_id = "${aws_vpc.software-dev-eu-west-1.id}"
+
+    ingress {
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = ["10.1.0.0/16"]
+    }
+    ingress {
+        from_port = 28000
+        to_port = 28001
+        protocol = "tcp"
+        cidr_blocks = ["10.1.0.0/16"]
+    }
+
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["10.1.0.0/16"]
+    }
+
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+}
+
+
 resource "aws_instance" "dev-lic-server" {
     provider = "aws.eu-west-1"
     ami = "ami-e9a42e9a"
     instance_type = "t2.nano"
     subnet_id = "${aws_subnet.eu-west-1c.id}"
+    vpc_security_group_ids = ["${aws_security_group.lic.id}"]
     tags {
         Name = "LicenseServer"
         Product = "SoftwareDev"
@@ -169,46 +205,39 @@ resource "aws_instance" "nat" {
     }
 }
 
+
+resource "aws_security_group" "bastion" {
+    provider = "aws.eu-west-1"
+    name = "SoftwareDevBastion"
+    description = "SoftwareDev Bastion instance security group"
+    vpc_id = "${aws_vpc.software-dev-eu-west-1.id}"
+
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["10.1.0.0/16"]
+    }
+}
+
+
 resource "aws_instance" "bastion" {
     provider = "aws.eu-west-1"
     ami = "ami-f95ef58a"
     instance_type = "t2.nano"
     subnet_id = "${aws_subnet.eu-west-1c.id}"
     associate_public_ip_address = true
-    vpc_security_group_ids = ["${aws_security_group.nat.id}"]
+    vpc_security_group_ids = ["${aws_security_group.bastion.id}"]
     tags {
         Name = "Bastion"
         Product = "SoftwareDev"
-    }
-}
-
-resource "aws_launch_configuration" "spot_build_node" {
-    provider = "aws.eu-west-1"
-    name = "build node"
-    image_id = "ami-73008100"
-    instance_type = "m4.4xlarge"
-    spot_price = "0.40"
-    lifecycle {
-        create_before_destroy = true
-    }
-}
-
-resource "aws_autoscaling_group" "build" {
-    provider = "aws.eu-west-1"
-    name = "build-asg"
-    launch_configuration = "${aws_launch_configuration.spot_build_node.name}"
-
-    min_size = 0
-    max_size = 4
-    desired_capacity = 0
-    force_delete = true
-
-    vpc_zone_identifier = ["${aws_subnet.eu-west-1c.id}"]
-
-    tag {
-        key = "Product"
-        value = "SoftwareDev"
-        propagate_at_launch = true
     }
 }
 
