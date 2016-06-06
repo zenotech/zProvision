@@ -48,3 +48,13 @@ resource "aws_security_group" "nat" {
 resource "aws_instance" "nat" {
     provider = "aws.eu-west-1"
     ami = "ami-a2971ed1"
+    instance_type = "t2.nano"
+    source_dest_check = false
+    subnet_id = "${aws_subnet.public.id}"
+    associate_public_ip_address = true
+    vpc_security_group_ids = ["${aws_security_group.nat.id}"]
+    tags {
+        Name = "Nat"
+        Product = "SoftwareDev"
+    }
+}
