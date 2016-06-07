@@ -8,7 +8,8 @@ sudo -H yum -y install git https://dl.fedoraproject.org/pub/epel/epel-release-la
 sudo -H yum -y groupinstall "Development Tools"
 sudo -H yum -y install python-pip python-devel libffi-devel openssl-devel
 
-sudo -H pip install --upgrade setuptools ansible jinja2
+sudo -H pip install --upgrade setuptools
+sudo -H pip install --upgrade ansible jinja2
 
 if [ ! -d zProvision ]; then
     git clone ${PROVISION_REPO}
