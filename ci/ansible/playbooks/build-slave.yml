@@ -14,23 +14,17 @@
         - azavea.pip
         - kfieldho.cmake
   tasks:
-    - name: "Install libibverbs"
-      apt: pkg='libibverbs-dev' state=installed
-    - name: "Install bzip2"
-      apt: pkg='libbz2-dev' state=installed
-    - name: "Install gfortran"
-      apt: pkg='gfortran' state=installed
-    - name: "Install lapack"
-      apt: pkg='liblapack-dev' state=installed
-    - name: "Install cuda toolkit"
-      apt: pkg='nvidia-cuda-toolkit' state=installed
-    - name: "Install xutils dev"
-      apt: pkg='xutils-dev' state=installed
-    - name: "Install libx11-dev"
-      apt: pkg='libx11-dev' state=installed
-    - name: "Install flex"
-      apt: pkg='flex' state=installed
-    - name: "Install bison"
-      apt: pkg='bison' state=installed
-    - name: "Install openssl-dev"
-      apt: pkg="libssl-dev" state=installed
+    - name: "Install packages"
+      apt: pkg={{item}} state=installed
+      with_items:
+        - pkgconfig
+        - libibverbs-dev
+        - libbz2-dev
+        - gfortran
+        - liblapack-dev
+        - nvidia-cuda-toolkit
+        - xutils-dev
+        - libx11-dev
+        - flex
+        - bison
+        - libssl-dev
