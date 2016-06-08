@@ -1,17 +1,23 @@
 ---
 - hosts: ci-master
-  sudo: yes
+  become: yes
+  become_user: root
+  vars:
+    jenkins_plugins:
+      - ansible
+      - github
+      - ghprb
   pre_tasks:
     - name: "Update apt cache if needed"
       apt: update_cache=yes cache_valid_time=3600
       when: ansible_os_family == 'Debian'
-
+    - name: "Install aptitude"
+      apt: name=aptitude state=latest
+      when: ansible_os_family == 'Debian'
   tasks:
     - name: "Install unzip"
       apt: name=unzip state=present
 
   roles:
-        - awailly.cis-ubuntu-ansible
-#        - debops.fail2ban
+        - { role: awailly.cis-ubuntu-ansible, tags: cis }
         - geerlingguy.jenkins
-        - geerlingguy.sonar
