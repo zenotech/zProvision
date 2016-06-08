@@ -7,7 +7,7 @@ PROVISION_REPO=https://github.com/zenotech/zProvision.git
 sudo -H apt-get -y update
 sudo -H apt-get -y install git python-pip python-dev
 sudo pip install setuptools
-sudo pip install ansible\<2.0
+sudo pip install ansible
 
 git clone ${PROVISION_REPO}
 
