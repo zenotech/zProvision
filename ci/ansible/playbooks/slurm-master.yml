@@ -2,53 +2,45 @@
 - hosts: all
   become: yes
   vars:
-      pip_version: "8.1.*"
-      slurm_master: "localhost"
-      slurm_clustername: "default"
-      slurm_dbdhost: "localhost"
-      slurm_dbduser: "slurm"
-      slurm_dbdpassword: "password"
-      slurm_dbddb: "slurm"
-      mysql_packages:
-        - mariadb-client
-        - mariadb-server
-        - python-mysqldb
-      mysql_user_home: /root
-      mysql_root_password: root
-      mysql_enabled_on_startup: yes
-      mysql_users:
-        - name: slurm
-          host: "%"
-          password: "password"
-          priv: "*.*:ALL"
+    pip_version: "8.1.*"
+    slurm_master: "localhost"
+    slurm_clustername: "default"
+    slurm_dbdhost: "localhost"
+    slurm_dbduser: "slurm"
+    slurm_dbdpassword: "password"
+    slurm_dbddb: "slurm"
+    mysql_packages:
+      - mariadb-client
+      - mariadb-server
+      - python-mysqldb
+    mysql_user_home: /root
+    mysql_root_password: root
+    mysql_enabled_on_startup: yes
+    mysql_users:
+      - name: slurm
+        host: "%"
+        password: "password"
+        priv: "*.*:ALL"
+    nfs_exports:
+      - "/zdata *(rw,sync,no_subtree_check)"
+      - "/zapps *(rw,sync,no_subtree_check)"
   pre_tasks:
     - name: "Update apt cache if needed"
       apt: update_cache=yes cache_valid_time=3600
       when: ansible_os_family == 'Debian'
 
+    - name: "Create nfs export directories"
+      file: path={{item}} state=directory mode=0755
+      with_items:
+        - /zdata
+        - /zapps
   roles:
-        - { role: awailly.cis-ubuntu-ansible, tags: cis, when: ansible_os_family == "Debian" }
-        - geerlingguy.git
-        - markwilde.gcc
-        - azavea.pip
-        - zenotech.mysql
-        - { role: zenotech.slurm, is_slurm_master: true, is_slurm_node: false }
+    - { role: awailly.cis-ubuntu-ansible, tags: cis, when: ansible_os_family == "Debian" }
+    - { role: geerlingguy.nfs }
+    - zenotech.mysql
+    - { role: zenotech.slurm, is_slurm_master: true, is_slurm_node: false }
   tasks:
-    - name: "Install libibverbs"
-      apt: pkg='libibverbs-dev' state=installed
-    - name: "Install bzip2"
-      apt: pkg='libbz2-dev' state=installed
-    - name: "Install gfortran"
-      apt: pkg='gfortran' state=installed
-    - name: "Install lapack"
-      apt: pkg='liblapack-dev' state=installed
-    - name: "Install xutils dev"
-      apt: pkg='xutils-dev' state=installed
-    - name: "Install libx11-dev"
-      apt: pkg='libx11-dev' state=installed
-    - name: "Install flex"
-      apt: pkg='flex' state=installed
-    - name: "Install bison"
-      apt: pkg='bison' state=installed
-    - name: "Install openssl-dev"
-      apt: pkg="libssl-dev" state=installed
+    - name: "Make config available to compute nodes"
+      copy: src=/etc/slurm-llnl/slurm.conf dest=/zdata/slurm.conf owner=root group=root mode=0644
+    - name: "Make munge key available to compute nodes"
+      copy: src=/etc/munge/munge.key dest=/zdata/munge.key owner=munge group=munge mode=0660 remote_src=true
