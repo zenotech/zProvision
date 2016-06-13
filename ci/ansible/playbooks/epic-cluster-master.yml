@@ -1,3 +1,30 @@
 ---
 - include: harden.yml
+- hosts: all
+  become: yes
+  vars:
+    nfs_exports:
+      - "/zdata *(rw,sync,no_subtree_check)"
+      - "/zapps *(rw,sync,no_subtree_check)"
+  pre_tasks:
+    - name: "Update apt cache if needed"
+      apt: update_cache=yes cache_valid_time=3600
+      when: ansible_os_family == 'Debian'
+
+    - name: "Create nfs export directories"
+      file: path={{item}} state=directory mode=0755
+      with_items:
+        - /zdata
+        - /zapps
+  roles:
+    - { role: geerlingguy.nfs }
 - include: slurm-master.yml
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Make config available to compute nodes"
+      copy: src=/etc/slurm-llnl/slurm.conf dest=/zdata/slurm.conf owner=root group=root mode=0644
+    - name: "Make munge key available to compute nodes"
+      copy: src=/etc/munge/munge.key dest=/zdata/munge.key owner=munge group=munge mode=0660 remote_src=true
+

@@ -1,3 +1,18 @@
 ---
 - include: harden.yml
+- hosts: all
+  become: yes
+  become_user: root
+  pre_tasks:
+    - name: "Update apt cache if needed"
+      apt: update_cache=yes cache_valid_time=3600
+      when: ansible_os_family == 'Debian'
+  tasks:
+        - package: name=nfs-utils state=present
+          when: ansible_os_family == 'RedHat'
+        - package: name=nfs-common state=present
+          when: ansible_os_family == 'Debian'
+        - service: name=rpcbind state=started
+        - mount: src={{nfs_master}}:/zdata name=/zdata state=mounted fstype=nfs
+        - mount: src={{nfs_master}}:/zapps name=/zapps state=mounted fstype=nfs
 - include: slurm-node.yml
