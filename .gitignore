@@ -2,3 +2,4 @@
 
 ci/ansible/roles
 *.retry
+.terraform
