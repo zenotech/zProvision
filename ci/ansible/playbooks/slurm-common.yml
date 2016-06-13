@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+        - group: name=munge gid=127 state=present
+        - user: name=munge uid=120 state=present shell=/sbin/nologin createhome=no system=yes home=/var/run/munge group=munge comment="Runs Uid 'N' Gid Emporium"
