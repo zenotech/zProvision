@@ -8,6 +8,9 @@
       when: ansible_os_family == 'Debian'
   tasks:
         - package: name=nfs-utils state=present
+          when: ansible_os_family == 'RedHat'
+        - package: name=nfs-common state=present
+          when: ansible_os_family == 'Debian'
         - service: name=rpcbind state=started
         - mount: src={{nfs_master}}:/zdata name=/zdata state=mounted fstype=nfs
         - group: name=munge gid=127 state=present
