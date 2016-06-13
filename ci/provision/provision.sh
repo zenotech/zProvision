@@ -34,4 +34,5 @@ sudo -H sh ./setup.sh #Install dependencies
 echo "[all]
 localhost ansible_connection=local
 " > host_inventory
-ansible-playbook -i host_inventory playbooks/$1.yml
+ansible-playbook -i host_inventory playbooks/$1.yml -e $2
+
