@@ -1,4 +1,5 @@
 ---
+- include: harden.yml
 - hosts: django-slaves
   become: yes
   vars:
@@ -16,7 +17,6 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-        - { role: awailly.cis-ubuntu-ansible, tags: cis }
         - geerlingguy.git
         - azavea.pip
         - ANXS.postgresql

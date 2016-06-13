@@ -1,20 +1,11 @@
 ---
-- include: harden.yml
 - hosts: all
   become: yes
   become_user: root
-  vars:
-    firewall_allowed_tcp_ports:
-      - "22"
-      - "6818"
   pre_tasks:
     - name: "Update apt cache if needed"
       apt: update_cache=yes cache_valid_time=3600
       when: ansible_os_family == 'Debian'
-
-  roles:
-        - { role: geerlingguy.firewall }
-        - { role: zenotech.sssd }
   tasks:
         - package: name=nfs-utils state=present
         - service: name=rpcbind state=started

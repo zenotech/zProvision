@@ -1,2 +1,3 @@
 ---
-- include: slurm-slave.yml
+- include: harden.yml
+- include: slurm-node.yml

@@ -1,4 +1,5 @@
 ---
+- include: harden.yml
 - hosts: ci-master
   become: yes
   become_user: root
@@ -19,5 +20,4 @@
       apt: name=unzip state=present
 
   roles:
-        - { role: awailly.cis-ubuntu-ansible, tags: cis }
         - geerlingguy.jenkins

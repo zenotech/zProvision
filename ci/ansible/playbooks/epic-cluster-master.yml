@@ -1,2 +1,3 @@
 ---
+- include: harden.yml
 - include: slurm-master.yml

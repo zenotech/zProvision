@@ -1,4 +1,5 @@
 ---
+- include: harden.yml
 - hosts: ci-slave
   sudo: yes
   pre_tasks:
@@ -7,7 +8,6 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-        - awailly.cis-ubuntu-ansible
         - geerlingguy.java
         - geerlingguy.git
         - weldpua2008.vagrant

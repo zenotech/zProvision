@@ -35,7 +35,6 @@
         - /zdata
         - /zapps
   roles:
-    - { role: awailly.cis-ubuntu-ansible, tags: cis, when: ansible_os_family == "Debian" }
     - { role: geerlingguy.nfs }
     - zenotech.mysql
     - { role: zenotech.slurm, is_slurm_master: true, is_slurm_node: false }

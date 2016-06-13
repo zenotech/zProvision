@@ -1,5 +1,6 @@
 ---
-- hosts: django-web 
+- include: harden.yml
+- hosts: django-web
   sudo: yes
   vars:
       server_name: "epic-qa.zenotech.com"
@@ -35,7 +36,6 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-        - awailly.cis-ubuntu-ansible
         - geerlingguy.nginx
         - geerlingguy.git
         - azavea.pip
@@ -53,7 +53,7 @@
     - name: "Create zenosphere checkout dir"
       file: path={{zenosphere_dir}} owner=gunicorn mode=0777 state=directory
     - name: "Checkout zenosphere"
-      sudo: no 
+      sudo: no
       git: repo=git@github.com:zenotech/zenoSphere.git
            dest={{zenosphere_dir}}
            accept_hostkey=yes
@@ -66,7 +66,7 @@
 
     - name: "Install libjpeg-dev (Ubuntu)"
       apt: pkg='libjpeg-dev' state=installed
-      when: ansible_os_family == 'Debian'    
+      when: ansible_os_family == 'Debian'
     - name: "Install pg-dev (Ubuntu)"
       apt: pkg='libpq-dev' state=installed
       when: ansible_os_family == 'Debian'
