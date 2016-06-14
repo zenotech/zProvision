@@ -27,7 +27,13 @@ if [ -f /etc/redhat-release ] ; then
     bootstrap_rh
 fi
 
-git clone ${PROVISION_REPO}
+if [ ! -d zProvision ]; then
+    git clone ${PROVISION_REPO}
+else
+    pushd zProvision
+    git pull
+    popd
+fi
 
 cd zProvision/ci/ansible
 sudo -H sh ./setup.sh #Install dependencies
