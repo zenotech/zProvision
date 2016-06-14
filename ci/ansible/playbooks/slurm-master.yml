@@ -4,8 +4,8 @@
   become: yes
   vars:
     pip_version: "8.1.*"
-    slurm_master: "localhost"
-    slurm_clustername: "{{ansible_hostname}}"
+    slurm_master: "{{ansible_hostname}}"
+    slurm_clustername: "default"
     slurm_dbdhost: "localhost"
     slurm_dbduser: "slurm"
     slurm_dbdpassword: "password"
