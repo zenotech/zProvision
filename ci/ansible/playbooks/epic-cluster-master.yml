@@ -26,4 +26,5 @@
       copy: src=/etc/slurm-llnl/slurm.conf dest=/zdata/slurm.conf owner=root group=root mode=0644
     - name: "Make munge key available to compute nodes"
       copy: src=/etc/munge/munge.key dest=/zdata/munge.key owner=munge group=munge mode=0660 remote_src=true
-
+    - name: "Restart munge"
+      service: name=munge state=restarted
