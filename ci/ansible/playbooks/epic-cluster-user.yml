@@ -12,4 +12,4 @@
     - name: Create .ssh dir
       file: path=/zdata/epic/.ssh state=directory owner=epic mode=0700
     - name: Setup ssh key
-      copy: content={{ssh_key}} dest=/zdata/epic/.ssh/authorized_keys owner=epic mode=0600
+      copy: src=/tmp/epic-publickey dest=/zdata/epic/.ssh/authorized_keys owner=epic mode=0600
