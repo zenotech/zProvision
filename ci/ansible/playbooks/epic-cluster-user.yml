@@ -4,7 +4,7 @@
   become_user: root
   tasks:
     - name: Create Epic user
-      user: name=epic home=/zdata/epic createhome=yes state=present uid=8000
+      user: name=epic home=/zdata/epic createhome=yes state=present uid=8000 shell=/bin/bash
 - hosts: all
   become: yes
   become_user: epic
