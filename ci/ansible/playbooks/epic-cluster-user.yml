@@ -7,7 +7,7 @@
       user: name=epic home=/zdata/epic createhome=yes state=present uid=8000
 - hosts: all
   become: yes
-  become_user:epic
+  become_user: epic
   tasks:
     - name: Create .ssh dir
       file: path=/zdata/epic/.ssh state=directory owner=epic mode=0700
