@@ -19,6 +19,6 @@
         "provisioners": [
         {
             "type": "shell",
-            "inline": "curl -L https://raw.githubusercontent.com/zenotech/zProvision/master/ci/provision/provision.sh | bash -s -- epic-cluster-master-ami '{}' "
+            "inline": "cd / && curl -L https://raw.githubusercontent.com/zenotech/zProvision/master/ci/provision/provision.sh | bash -s -- epic-cluster-master-ami '{}' "
         }]
 }
