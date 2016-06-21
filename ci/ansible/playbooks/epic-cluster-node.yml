@@ -22,3 +22,4 @@
   tasks:
     - name: "Restart munge"
       service: name=munge state=restarted
+- include: epic-cluster-user.yml

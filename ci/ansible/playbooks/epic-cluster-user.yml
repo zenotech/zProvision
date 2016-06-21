@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+    - name: Create Epic user
+      user: name=epic home=/zdata/epic createhome=yes state=present uid=8000
+    - name: Create .ssh dir
+      file: path=/zdata/epic/.ssh state=directory owner=epic mode=0700
+    - name: Setup ssh key
+      copy: content={{ssh_key}} dest=/zdata/epic/.ssh/authorized_keys owner=epic mode=0600
