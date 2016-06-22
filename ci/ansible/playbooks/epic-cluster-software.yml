@@ -1,0 +1,38 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  vars:
+    pyfrdeps:
+      - python3-h5py
+      - python3-mpi4py
+      - python3-mako
+      - python3-pytools
+      - libmetis5
+      - python3-numpy
+      - python3-appdirs
+      - python3-decorator
+    epicpackages:
+      - hpcc
+      - gromacs-openmpi
+      - mpqc3
+      - grass
+      - ipython-notebook
+      - ncview
+      - paraview-python
+      - hmmer2
+      - ergo
+      - emboss
+      - elmer
+      - cgns-convert
+      - code-saturne
+      - bowtie
+      - blast2
+      - bagel
+    tasks:
+      - name: Install software
+        apt: state=present pkg={{item}}
+        with_items: "{{epicpackages}}"
+      - name: Install pyfr deps
+        apt: state=present pkg={{item}}
+        with_items: "{{pyfrdeps}}"
