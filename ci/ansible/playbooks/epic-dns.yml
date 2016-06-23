@@ -5,3 +5,5 @@
   tasks:
     - name: Add dns search domain
       lineinfile: dest=/etc/dhcp/dhclient.conf state=present line='append domain-name " {{cluster_id}}.epic-cluster.zenotech.com";'
+    - name: Restart networking
+      service: name=networking state=restarted
