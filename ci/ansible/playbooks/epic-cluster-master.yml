@@ -17,6 +17,7 @@
         - /zapps
   roles:
     - { role: geerlingguy.nfs }
+- include: epic-dns.yml
 - include: slurm-master.yml
 - hosts: all
   become: yes
