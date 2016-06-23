@@ -29,10 +29,10 @@
       - bowtie
       - blast2
       - bagel
-    tasks:
-      - name: Install software
-        apt: state=present pkg={{item}}
-        with_items: "{{epicpackages}}"
-      - name: Install pyfr deps
-        apt: state=present pkg={{item}}
-        with_items: "{{pyfrdeps}}"
+  tasks:
+    - name: Install software
+      apt: state=present pkg={{item}}
+      with_items: "{{epicpackages}}"
+    - name: Install pyfr deps
+      apt: state=present pkg={{item}}
+      with_items: "{{pyfrdeps}}"
