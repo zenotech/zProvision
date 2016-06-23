@@ -30,7 +30,7 @@
       - blast2
       - bagel
       - gnuplot5-qt
-      - gunplot-qt
+      - gnuplot-qt
   tasks:
     - name: Install software
       apt: state=present pkg={{item}}
