@@ -1,4 +1,5 @@
 ---
+- include: harden.yml
 - hosts: all
   become: yes
   become_user: root
@@ -11,16 +12,4 @@
           when: ansible_os_family == 'RedHat'
         - package: name=nfs-common state=present
           when: ansible_os_family == 'Debian'
-        - service: name=rpcbind state=started
-        - mount: src={{nfs_master}}:/zdata name=/zdata state=mounted fstype=nfs
-        - mount: src={{nfs_master}}:/zapps name=/zapps state=mounted fstype=nfs
-- include: epic-dns.yml
 - include: epic-cluster-software.yml
-- include: slurm-node.yml
-- hosts: all
-  become: yes
-  become_user: root
-  tasks:
-    - name: "Restart munge"
-      service: name=munge state=restarted
-- include: epic-cluster-user.yml
