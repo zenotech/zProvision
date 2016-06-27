@@ -1,22 +1,27 @@
 ---
 - include: harden.yml
-- hosts: ci-build
-  sudo: yes
-  vars:
-    - pip_version: 8.1.*
+- hosts: all
+  become: yes
+  become_user: root
   pre_tasks:
-    - name: "Update apt cache if needed"
+    - name: Update apt cache if needed
       apt: update_cache=yes cache_valid_time=3600
       when: ansible_os_family == 'Debian'
 
+  tasks:
+    - name: Install libselinux-python
+      package: pkg={{item}} state=latest
+      with_items:
+        - libselinux-python
+- hosts: all
+  become: yes
+  become_user: root
   roles:
         - geerlingguy.git
-        - markwilde.gcc
-        - azavea.pip
         - kfieldho.cmake
   tasks:
-    - name: "Install packages"
-      apt: pkg={{item}} state=installed
+    - name: debian | Install packages
+      package: pkg={{item}} state=installed
       with_items:
         - pkgconfig
         - libibverbs-dev
@@ -29,3 +34,35 @@
         - flex
         - bison
         - libssl-dev
+      when: ansible_os_family == 'Debian'
+    - name: redhat | Install scl and devpackages
+      package: pkg={{item}} state=latest
+      with_items:
+        - centos-release-scl
+        - libibverbs-devel-static
+        - flex
+        - bison
+        - openssl-devel
+        - libX11-devel
+        - rpm-build
+        - libtool
+        - zlib-devel
+        - kernel-devel
+        - numactl-devel
+        - wget
+      when: ansible_os_family == 'RedHat'
+    - name: Install cuda repo
+      yum: pkg=http://developer.download.nvidia.com/compute/cuda/repos/rhel6/x86_64/cuda-repo-rhel6-7.5-18.x86_64.rpm state=present
+      when: ansible_os_family == 'RedHat'
+    - name: redhat | Install devtoolset-3 and cuda
+      package: pkg={{item}} state=latest
+      with_items:
+        - devtoolset-3-toolchain
+        - cuda
+      when: ansible_os_family == 'RedHat'
+    - name: Download intel installer
+      get_url: url=http://packages.zenotech.com/parallel_studio_xe_2016_update3_online.sh dest=/tmp/intel_installer_online.sh mode=0755
+    - name: Download silent.cfg
+      get_url: url=http://packages.zenotech.com/silent.cfg dest=/tmp/silent.cfg mode=0644
+    - name: Install intel toolset
+      command: /tmp/intel_installer_online.sh --silent /tmp/silent.cfg
