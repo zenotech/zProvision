@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+    - name: Install EPEL
+      yum: state=present pkg=epel-release
+    - name: Install cloud-init
+      yum: state=present pkg={{item}}
+      with_items:
+        - cloud-init
+        - dracut-modules-growroot
+    - name: Rebuild initramfs
+      shell: rpm -qa kernel | sed 's/^kernel-//'  | xargs -I {} dracut -f /boot/initramfs-{}.img {}
+
