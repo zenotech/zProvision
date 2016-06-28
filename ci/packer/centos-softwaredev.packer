@@ -1,0 +1,24 @@
+{
+    "variables": {
+    },
+        "builders": [{
+            "type": "amazon-ebs",
+            "region": "eu-west-1",
+            "source_ami": "ami-107ce763",
+            "instance_type": "t2.micro",
+            "associate_public_ip_address": "true",
+            "ami_virtualization_type": "hvm",
+            "ssh_username": "centos",
+            "ami_name": "centos-6.7 {{timestamp}}",
+            "ami_description": "A centos software dev image built with Packer.io",
+            "vpc_id": "vpc-abb5f6ce",
+            "subnet_id": "subnet-ce360f97",
+            "tags": {
+                "Name": "CentOS 6.7 base"}
+        }],
+        "provisioners": [
+        {
+            "type": "shell",
+            "inline": "curl -L https://raw.githubusercontent.com/zenotech/zProvision/master/ci/provision/provision.sh | sudo bash -s -- build-slave \"{}\" "
+        }]
+}
