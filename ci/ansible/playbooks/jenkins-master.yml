@@ -1,6 +1,6 @@
 ---
 - include: harden.yml
-- hosts: ci-master
+- hosts: all 
   become: yes
   become_user: root
   vars:
