@@ -1,0 +1,13 @@
+---
+celery_version: "3.1.18"
+celery_dir: "/var/lib/celery"
+celery_bin: "/usr/local/bin/celery"
+celery_start_on: "local-filesystems and net-device-up IFACE!=lo"
+celery_app: "proj"
+celery_broker_url: "redis://localhost:6379/0"
+celery_log_level: "info"
+celery_autoreload: False
+
+celery_log: "/var/log/celery.log"
+celery_log_rotate_count: 5
+celery_log_rotate_interval: daily

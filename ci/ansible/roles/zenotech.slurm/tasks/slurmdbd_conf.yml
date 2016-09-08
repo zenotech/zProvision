@@ -1,0 +1,4 @@
+- name: Install slurm config file
+  template: src=slurmdbd.conf dest=/etc/slurm-llnl/slurmdbd.conf owner=slurm
+- name: Start slurm DBD service
+  service: name=slurmdbd state=started enabled=yes

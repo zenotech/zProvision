@@ -1,0 +1,3 @@
+---
+- name: redhat | install gnc c compiler
+  yum: name={{yum_package}} state=installed

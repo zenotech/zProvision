@@ -1,0 +1,2 @@
+slurm_conf_dir: /etc/slurm-llnl
+slurmd_service_name: slurmd

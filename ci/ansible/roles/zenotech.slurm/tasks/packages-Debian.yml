@@ -1,0 +1,34 @@
+- name: debian | Install munge packages
+  apt: name={{item}} state=installed
+  ignore_errors: true
+  with_items:
+    - munge
+- name: Create directories
+  file: name=/etc/systemd/system/munge.service.d state=directory
+- name: Fixup munge commandline parameters
+  copy: src=munge.service dest=/etc/systemd/system/munge.service.d/override.conf
+- name: Restart systemd
+  command: systemctl daemon-reload
+- name: Generate a new munge key
+  command: create-munge-key -f
+  run_once: true
+  when: is_slurm_master == true
+- name: Copy munge key
+  copy: src=/zdata/munge.key dest=/etc/munge/munge.key owner=munge group=munge mode=0600 remote_src=true
+  become: true
+  become_user: munge
+  when: is_slurm_master != true
+- name: Start munge service
+  service: name=munge state=started enabled=yes
+- name: debian | Install slurm packages
+  apt: name={{item}} state=installed
+  with_items:
+    - slurm-wlm
+    - slurm-wlm-basic-plugins
+    - sview
+
+- name: debian | Install slurmdbd packages
+  apt: name={{item}} state=installed
+  with_items:
+    - slurmdbd
+  when: is_slurm_master == true

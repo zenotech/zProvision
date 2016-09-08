@@ -1,0 +1,16 @@
+- name: Install slurm config file
+  copy: src=/zdata/slurm.conf dest={{slurm_conf_dir}}/slurm.conf owner=root group=root mode=0644 remote_src=True
+#- name: Apply firewall rules
+#  firewalld: port=6818 permanent=true state=enabled
+- name: Start slurm node service
+  command: slurmd -N {{slurm_nodename}}
+#  service: name={{slurmd_service_name}} state=started enabled=yes
+- name: Restart munge
+  service: name=munge state=restarted
+
+- name: Inform master of our node
+  command: scontrol update NodeName={{slurm_nodename}} NodeAddr={{ansible_default_ipv4.address}} NodeHostName={{ansible_fqdn}}
+
+- name: Bring node into service
+  command: scontrol update NodeName={{slurm_nodename}} state=RESUME
+  ignore_errors: true

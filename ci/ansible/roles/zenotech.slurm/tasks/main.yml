@@ -1,0 +1,16 @@
+---
+# tasks file for slurm
+
+- name: Include OS-specific vairables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- include: packages-{{ ansible_os_family }}.yml
+
+- include: slurmdbd_conf.yml
+  when: is_slurm_master == true
+
+- include: slurm_master_conf.yml
+  when: is_slurm_master == true
+
+- include: slurm_node_conf.yml
+  when: is_slurm_node == true

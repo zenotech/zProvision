@@ -1,0 +1,3 @@
+---
+- name: debian | install gnc c compiler
+  apt: name={{apt_package}} state=installed

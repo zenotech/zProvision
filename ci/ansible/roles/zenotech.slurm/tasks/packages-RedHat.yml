@@ -1,0 +1,29 @@
+- name: redhat | Install munge packages
+  yum: name={{item}} state=installed
+  ignore_errors: true
+  with_items:
+    - munge
+- name: Generate a new munge key
+  command: create-munge-key -f
+  run_once: true
+  when: is_slurm_master == true
+- name: Copy munge key
+  copy: src=/zdata/munge.key dest=/etc/munge/munge.key owner=munge group=munge mode=0600 remote_src=true
+  when: is_slurm_master != true
+  become: true
+  become_user: munge
+- name: Start munge service
+  service: name=munge state=started enabled=yes
+- name: redhat | Install slurm packages
+  yum: name={{item}} state=installed
+  with_items:
+    - http://packages.zenotech.com/slurm-15.08.11-1.el6.x86_64.rpm
+    - http://packages.zenotech.com/slurm-munge-15.08.11-1.el6.x86_64.rpm
+    - http://packages.zenotech.com/slurm-plugins-15.08.11-1.el6.x86_64.rpm
+    - http://packages.zenotech.com/slurm-pam_slurm-15.08.11-1.el6.x86_64.rpm
+
+- name: redhat | Install slurmdbd packages
+  yum: name={{item}} state=installed
+  with_items:
+    - slurmdbd
+  when: is_slurm_master == true
