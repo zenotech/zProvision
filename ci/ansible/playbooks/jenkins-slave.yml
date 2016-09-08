@@ -1,4 +1,4 @@
----
+--
 - include: harden.yml
 - hosts: ci-slave
   sudo: yes
@@ -10,5 +10,4 @@
   roles:
         - geerlingguy.java
         - geerlingguy.git
-        - weldpua2008.vagrant
         - kbrebanov.packer
