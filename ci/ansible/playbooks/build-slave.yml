@@ -52,6 +52,10 @@
         - wget
         - imake
         - tcl-devel
+        - gtest-devel
+        - texlive-latex
+        - ImageMagick
+        - sqlite-devel
       when: ansible_os_family == 'RedHat'
     - name: Install cuda repo
       yum: pkg=http://developer.download.nvidia.com/compute/cuda/repos/rhel6/x86_64/cuda-repo-rhel6-7.5-18.x86_64.rpm state=present
