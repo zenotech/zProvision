@@ -89,3 +89,5 @@
     - name: Install pyfr deps
       apt: state=present pkg={{item}}
       with_items: "{{pyfrdeps}}"
+    - name: Install pyfr
+      apt: state=present deb=https://launchpad.net/ubuntu/+archive/primary/+files/pyfr_1.4.0-3_all.deb
