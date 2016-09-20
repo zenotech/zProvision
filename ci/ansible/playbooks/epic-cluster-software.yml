@@ -31,6 +31,58 @@
       - bagel
       - gnuplot5-qt
       - gnuplot-qt
+      - avogadro
+      - mopac7
+      - psi3
+      - abinit
+      - openmx
+      - apbs
+      - r-cran-qtl
+      - fastlink
+      - fastlink-doc
+      - loki
+      - loki-doc
+      - garlic
+      - garlic-doc
+      - pymol
+      - rasmol
+      - ghemical
+      - openbabel
+      - autodock
+      - exonerate
+      - boxshade
+      - clustalw
+      - seaview
+      - t-coffee
+      - sim4
+      - sibsim4
+      - arb
+      - wise
+      - wise-doc
+      - fastdnaml
+      - njplot
+      - tree-puzzle
+      - phylip
+      - phylip-doc
+      - wcalc
+      - pcb2gcode
+      - visolate
+      - pythoncad
+      - sailcut
+      - sailcut-doc
+      - gmsh
+      - netgen
+      - gerris-mpi
+      - octave
+      - cdo
+      - nco
+      - python-cmor
+      - ferret-vis
+      - gmt
+      - gmt-examples
+      - zygrib
+      - qgis
+      - blender
   tasks:
     - name: Install software
       apt: state=present pkg={{item}}
