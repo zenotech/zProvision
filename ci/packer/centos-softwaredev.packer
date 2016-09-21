@@ -13,9 +13,19 @@
             "ami_description": "A centos software dev image built with Packer.io",
             "vpc_id": "vpc-abb5f6ce",
             "subnet_id": "subnet-ce360f97",
-            "tags": {
-                "Name": "CentOS 6.7 base"}
-        }],
+            "tags":
+            {
+                "Name": "CentOS 6.7 base"
+            },
+            "ami_block_device_mappings": [
+                {
+                "volume_size": "100",
+                "device_name": "/dev/sda1",
+                "delete_on_termination": "true",
+                "encrypted": "false"
+                }
+            ]
+         }],
         "provisioners": [
         {
             "type": "shell",

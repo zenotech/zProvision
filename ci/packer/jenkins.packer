@@ -4,17 +4,17 @@
         "builders": [{
             "type": "amazon-ebs",
             "region": "eu-west-1",
-            "source_ami": "ami-b7359bc4",
+            "source_ami": "ami-1967056a",
             "instance_type": "t2.micro",
             "associate_public_ip_address": "true",
             "ami_virtualization_type": "hvm",
             "ssh_username": "ubuntu",
-            "ami_name": "ubuntu-15.10-jenkins-slave {{timestamp}}",
-            "ami_description": "A jenkins slave image built with Packer.io",
-            "vpc_id": "vpc-27a47342",
-            "subnet_id": "subnet-2a985673",
-            "tags": {"Environment": "test",
-                "name": "jenkins slave builder"}
+            "ami_name": "ubuntu-16.04-jenkins-master {{timestamp}}",
+            "ami_description": "A jenkins master image built with Packer.io",
+            "vpc_id": "vpc-3bb51b5f",
+            "subnet_id": "subnet-bc19d3e4",
+            "tags": {
+                "Name": "jenkins builder"}
         }],
         "provisioners": [
         {

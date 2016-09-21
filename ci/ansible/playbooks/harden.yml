@@ -9,4 +9,3 @@
 
   roles:
         - { role: awailly.cis-ubuntu-ansible, tags: cis, when: ansible_os_family == "Debian" }
-        - { role: major.cis-rhel-ansible, tags: cis, when: ansible_os_family == "RedHat" }
