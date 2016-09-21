@@ -13,6 +13,9 @@
       - python3-appdirs
       - python3-decorator
     epicpackages:
+      - vim
+      - vim-doc
+      - nvidia-cuda-toolkit
       - hpcc
       - gromacs-openmpi
       - mpqc3
