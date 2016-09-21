@@ -4,6 +4,7 @@
   name: awailly.cis-ubuntu-ansible
   version: master
 
+- src: major.cis-rhel-ansible
 - src: debops.fail2ban
 - src: geerlingguy.firewall
 
