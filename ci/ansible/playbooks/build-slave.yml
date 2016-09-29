@@ -58,16 +58,16 @@
         - sqlite-devel
       when: ansible_os_family == 'RedHat'
     - name: Install cuda repo
-      yum: pkg=http://developer.download.nvidia.com/compute/cuda/repos/rhel6/x86_64/cuda-repo-rhel6-7.5-18.x86_64.rpm state=present
+      yum: state=present pkg=https://developer.nvidia.com/compute/cuda/8.0/prod/local_installers/cuda-repo-rhel6-8-0-local-8.0.44-1.x86_64-rpm
       when: ansible_os_family == 'RedHat'
-    - name: redhat | Install devtoolset-3 and cuda
+    - name: redhat | Install devtoolset-4 and cuda
       package: pkg={{item}} state=latest
       with_items:
-        - devtoolset-3-toolchain
+        - devtoolset-4-toolchain
         - cuda
       when: ansible_os_family == 'RedHat'
-    - name: Download OFED 3.18
-      get_url: url=http://downloads.openfabrics.org/OFED/ofed-3.18/OFED-3.18.tgz dest=/tmp/ofed.tgz
+    - name: Download OFED 3.18-2
+      get_url: url=http://downloads.openfabrics.org/OFED/ofed-3.18-2/OFED-3.18-2.tgz dest=/tmp/ofed.tgz
     - name: Create dir to untar to
       file: name=/tmp/ofed state=directory
     - name: Untar OFED
