@@ -1,5 +1,4 @@
 ---
-- include: harden.yml
 - include: slurm-common.yml
 - hosts: all
   become: yes
