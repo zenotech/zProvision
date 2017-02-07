@@ -1,6 +1,4 @@
 ---
-- include: harden.yml
-- include: epic-cluster-nfsserver.yml
 - include: slurm-master.yml
 - hosts: all
   become: yes
@@ -10,4 +8,5 @@
       copy: src=/etc/slurm-llnl/slurm.conf dest=/zdata/slurm.conf owner=root group=root mode=0644
     - name: "Make munge key available to compute nodes"
       copy: src=/etc/munge/munge.key dest=/zdata/munge.key owner=munge group=munge mode=0660 remote_src=true
-- include: epic-cluster-software.yml
+    - name: "Restart munge"
+      service: name=munge state=restarted

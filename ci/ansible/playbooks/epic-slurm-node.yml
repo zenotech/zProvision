@@ -1,0 +1,8 @@
+---
+- include: slurm-node.yml
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+    - name: "Restart munge"
+      service: name=munge state=restarted

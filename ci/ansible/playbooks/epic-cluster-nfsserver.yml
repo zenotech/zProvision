@@ -10,6 +10,10 @@
       apt: update_cache=yes cache_valid_time=3600
       when: ansible_os_family == 'Debian'
 
-- include: epic-cluster-dns.yml
-- include: epic-slurm-master.yml
-- include: epic-cluster-user.yml
+    - name: "Create nfs export directories"
+      file: path={{item}} state=directory mode=0755
+      with_items:
+        - /zdata
+        - /zapps
+  roles:
+    - { role: geerlingguy.nfs }
