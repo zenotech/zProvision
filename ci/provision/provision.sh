@@ -16,7 +16,8 @@ function bootstrap_rh {
     sudo -H yum -y groupinstall "Development Tools"
     sudo -H yum -y install python-pip python-devel libffi-devel openssl-devel
 
-    sudo -H pip install --upgrade setuptools ansible jinja2
+    sudo -H pip install --upgrade setuptools pip
+    sudo -H pip install --upgrade ansible jinja2
 }
 
 if [ -f /etc/debian_version ] ; then
