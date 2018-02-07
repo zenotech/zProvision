@@ -16,7 +16,9 @@ function bootstrap_rh {
     sudo -H yum -y groupinstall "Development Tools"
     sudo -H yum -y install python-pip python-devel libffi-devel openssl-devel
 
-    sudo -H pip install --upgrade importlib setuptools pip
+    sudo -H pip install --upgrade setuptools
+    sudo -H pip install --upgrade importlib
+    sudo -H pip install --upgrade pip
     sudo -H pip install --upgrade ansible jinja2
 }
 
